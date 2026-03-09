@@ -1,0 +1,8 @@
+Estrutura obrigatória da mídia no GitHub:
+media/
+media/media_1/
+media/media_2/
+...
+media/media_24/
+
+Esta v12 busca automaticamente a mídia tanto na pasta raiz media/ quanto nas subpastas media_1 até media_24.

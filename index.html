@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AnKing Dashboard Pro v13</title>
+  <link rel="stylesheet" href="styles.css?v=13" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0b1220" />
+</head>
+<body>
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-card">
+      <div class="logo-badge">AK</div>
+      <h1>AnKing Dashboard Pro</h1>
+      <p>Carregando cartões e mídia...</p>
+      <div class="progress-shell"><div id="loadingBar" class="progress-bar"></div></div>
+      <div id="loadingText" class="muted">Inicializando</div>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo-badge">AK</div>
+        <div>
+          <h1>AnKing Dashboard Pro</h1>
+          <p>v13 • correção real de botões + mídia</p>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="small-label">Deck atual</div>
+        <div id="currentDeckName" class="deck-name">Todos os decks</div>
+        <div class="side-actions">
+          <button id="clearDeckBtn" class="btn btn-secondary">Limpar filtro</button>
+          <button id="resetStatsBtn" class="btn btn-danger">Zerar tudo</button>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="small-label">Meta diária</div>
+        <div class="goal-row">
+          <input id="dailyGoalInput" class="input small-input" type="number" min="1" value="50" />
+          <button id="saveGoalBtn" class="btn btn-primary">Salvar</button>
+        </div>
+        <div class="progress-shell top-space-sm"><div id="goalProgressBar" class="progress-bar"></div></div>
+        <div id="goalProgressText" class="muted top-space-sm"></div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-btn active" data-view="dashboard">📊 Dashboard</button>
+        <button class="nav-btn" data-view="subjects">📚 Matérias</button>
+        <button class="nav-btn" data-view="study">🧠 Estudo</button>
+        <button class="nav-btn" data-view="search">🔎 Busca</button>
+        <button class="nav-btn" data-view="stats">📈 Estatísticas</button>
+        <button class="nav-btn" data-view="about">ℹ️ Sobre</button>
+      </nav>
+
+      <div class="side-card">
+        <div class="small-label">Estrutura dos decks</div>
+        <div id="deckTree" class="deck-tree"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section id="dashboardView" class="view">
+        <div class="page-header">
+          <div>
+            <h2>Dashboard</h2>
+            <p class="muted">Resumo geral, metas, tempo e desempenho por deck.</p>
+          </div>
+          <div class="toolbar">
+            <input id="dashboardDeckSearch" class="input" placeholder="Buscar deck..." />
+          </div>
+        </div>
+
+        <div class="stats-grid six">
+          <div class="panel stat-card"><div class="small-label">Total de cards</div><div id="totalCards" class="stat-value">0</div></div>
+          <div class="panel stat-card"><div class="small-label">Respondidos</div><div id="reviewedCards" class="stat-value">0</div></div>
+          <div class="panel stat-card"><div class="small-label">Acertos</div><div id="correctCards" class="stat-value">0</div></div>
+          <div class="panel stat-card"><div class="small-label">Erros</div><div id="wrongCards" class="stat-value">0</div></div>
+          <div class="panel stat-card"><div class="small-label">Retenção</div><div id="accuracyRate" class="stat-value">0%</div></div>
+          <div class="panel stat-card"><div class="small-label">Tempo total</div><div id="totalTimeValue" class="stat-value">00:00:00</div></div>
+        </div>
+
+        <div class="stats-grid two-col">
+          <div class="panel">
+            <div class="row-between"><h3>Meta diária</h3><span id="studiedUniqueText" class="tag">0 estudados</span></div>
+            <div class="progress-shell"><div id="overallProgress" class="progress-bar"></div></div>
+            <p id="overallProgressText" class="muted"></p>
+          </div>
+          <div class="panel">
+            <div class="row-between"><h3>Filas</h3><span class="tag">novos / aprendendo / revisão / disponíveis</span></div>
+            <div id="queueSummary" class="summary-grid compact"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="row-between"><h3>Heatmap de estudo</h3><span class="tag">Últimos 140 dias</span></div>
+          <div id="heatmap" class="heatmap"></div>
+        </div>
+
+        <div class="panel">
+          <div class="row-between"><h3>Desempenho por deck</h3><span id="visibleDecksText" class="tag">0 decks</span></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Deck</th><th>Total</th><th>Respondidos</th><th>Acertos</th><th>Erros</th><th>Novos</th><th>Disponíveis</th><th>Tempo</th><th>Retenção</th></tr></thead>
+              <tbody id="dashboardTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="subjectsView" class="view hidden">
+        <div class="page-header">
+          <div><h2>Matérias</h2><p class="muted">Atalhos de estudo por matéria.</p></div>
+          <div class="toolbar"><input id="subjectFilterInput" class="input" placeholder="Filtrar matérias..." /></div>
+        </div>
+        <div id="subjectCardsGrid" class="subject-grid"></div>
+      </section>
+
+      <section id="studyView" class="view hidden">
+        <div class="page-header"><div><h2>Modo de estudo</h2><p class="muted">Modo diário por quantidade ou modo livre.</p></div></div>
+        <div class="panel">
+          <div class="study-config-grid six">
+            <div><label class="small-label">Matéria / deck</label><select id="studyDeckSelect" class="input"></select></div>
+            <div><label class="small-label">Modo</label><select id="studyModeSelect" class="input">
+              <option value="due">Disponíveis hoje</option>
+              <option value="all">Todos os cards (modo livre)</option>
+              <option value="count">Quantidade limitada (modo diário)</option>
+              <option value="wrong">Somente erradas ativas</option>
+              <option value="correct">Somente acertadas</option>
+              <option value="reviewedToday">Revisadas hoje</option>
+              <option value="new">Somente novos</option>
+              <option value="learning">Somente aprendendo</option>
+              <option value="review">Somente revisão</option>
+            </select></div>
+            <div><label class="small-label">Ordem</label><select id="studyOrderSelect" class="input"><option value="random">Randomizada</option><option value="sequential">Sequencial</option></select></div>
+            <div><label class="small-label">Quantidade</label><input id="studyCountInput" class="input" type="number" min="1" value="20" /></div>
+            <div><label class="small-label">Tempo da sessão</label><div id="sessionTimer" class="timer-box">00:00:00</div></div>
+            <div><label class="small-label">Progresso da sessão</label><div class="progress-shell"><div id="sessionProgressBar" class="progress-bar"></div></div></div>
+          </div>
+          <div id="studyInfoBox" class="info-box hidden"></div>
+          <div class="toolbar top-space"><button id="startStudyBtn" class="btn btn-primary">Iniciar estudo</button><button id="endSessionBtn" class="btn btn-secondary">Encerrar sessão</button></div>
+        </div>
+        <div id="studyEmpty" class="panel empty-state">Configure o estudo e clique em iniciar.</div>
+        <div id="studyCard" class="panel hidden">
+          <div class="row-between wrap-gap"><div id="studyMeta" class="tag">Deck</div><div id="studyCounter" class="tag">Card 1 / 1</div><div id="studyStateTag" class="tag">novo</div><div id="studyDueTag" class="tag">Disponível</div></div>
+          <div id="studyFront" class="flashcard"></div>
+          <div id="studyBack" class="flashcard answer hidden"></div>
+          <div class="study-actions">
+            <button id="showAnswerBtn" class="btn btn-secondary">Mostrar resposta</button>
+            <button id="againBtn" class="btn btn-danger hidden">Novamente</button>
+            <button id="hardBtn" class="btn btn-secondary hidden">Difícil</button>
+            <button id="goodBtn" class="btn btn-primary hidden">Bom</button>
+            <button id="easyBtn" class="btn btn-success hidden">Fácil</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="searchView" class="view hidden">
+        <div class="page-header"><div><h2>Busca de cards</h2><p class="muted">Busca rápida por conteúdo, deck e fila.</p></div><div class="toolbar"><input id="cardSearchInput" class="input" placeholder="Buscar termos..." /><select id="searchDeckSelect" class="input"></select><select id="searchQueueSelect" class="input"><option value="">Todas as filas</option><option value="new">novos</option><option value="learning">aprendendo</option><option value="review">revisão</option><option value="wrong">com erro</option><option value="today">revisados hoje</option></select></div></div>
+        <div class="panel"><div class="row-between"><h3>Resultados</h3><span id="searchCountText" class="tag">0 resultados</span></div><div id="searchResults" class="results-list"></div><div id="searchPagination" class="pagination"></div></div>
+      </section>
+
+      <section id="statsView" class="view hidden">
+        <div class="page-header"><div><h2>Estatísticas detalhadas</h2><p class="muted">Resumo do desempenho, previsão de retenção, tempo por deck e decks com mais erro.</p></div></div>
+        <div class="stats-grid two-col"><div class="panel"><h3>Resumo atual</h3><div id="statsSummary" class="summary-grid"></div></div><div class="panel"><h3>Top decks por volume</h3><div id="topDecks" class="rank-list"></div></div></div>
+        <div class="stats-grid two-col"><div class="panel"><h3>Tempo por deck</h3><div id="timePerDeckList" class="rank-list"></div></div><div class="panel"><h3>Decks com mais erro</h3><div id="worstDecksList" class="rank-list"></div></div></div>
+      </section>
+
+      <section id="aboutView" class="view hidden">
+        <div class="page-header"><div><h2>Sobre o site</h2><p class="muted">Pronto para GitHub Pages e para instalar no iPhone como app.</p></div></div>
+        <div class="panel prose"><p>Para instalar no iPhone: abra no Safari, toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p><p><strong>Intervalo</strong>: tempo entre a revisão atual e a próxima aparição do card.</p><p><strong>Fator de facilidade</strong>: número que acelera ou desacelera o crescimento do intervalo.</p><p><strong>Recaídas</strong>: quando um card já aprendido volta a ser errado.</p><p><strong>Disponíveis hoje</strong>: cards cujo momento programado de revisão chegou.</p><p>Quantidade importada: <strong id="aboutCardCount"></strong> cards em <strong id="aboutDeckCount"></strong> decks.</p></div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js?v=13"></script>
+</body>
+</html>
