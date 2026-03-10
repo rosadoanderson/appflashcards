@@ -1,0 +1,10 @@
+V14 final
+- app.js atualizado para procurar mídia em media/ e media_1..media_24
+- service-worker.js atualizado com novo cache anking-v14-core
+- index.html com cache-busting (?v=14)
+
+Após publicar no GitHub Pages:
+1. Faça upload substituindo os arquivos antigos.
+2. Abra o site no navegador.
+3. Faça recarga forçada.
+4. Se estiver instalado no iPhone, remova o app antigo da tela inicial e instale de novo.

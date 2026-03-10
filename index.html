@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AnKing Dashboard Pro v10</title>
+  <title>AnKing Dashboard Pro v14</title>
   <link rel="stylesheet" href="styles.css?v=14" />
-  <link rel="manifest" href="manifest.json" />
+  <link rel="manifest" href="manifest.json?v=14" />
   <meta name="theme-color" content="#0b1220" />
 </head>
 <body>
@@ -25,7 +25,7 @@
         <div class="logo-badge">AK</div>
         <div>
           <h1>AnKing Dashboard Pro</h1>
-          <p>v10 • imagens + app para iPhone</p>
+          <p>v14 final • correção real • GitHub Pages</p>
         </div>
       </div>
 
@@ -151,10 +151,10 @@
           <div id="studyBack" class="flashcard answer hidden"></div>
           <div class="study-actions">
             <button id="showAnswerBtn" class="btn btn-secondary">Mostrar resposta</button>
-            <button id="againBtn" class="btn btn-danger hidden">Novamente</button>
-            <button id="hardBtn" class="btn btn-secondary hidden">Difícil</button>
-            <button id="goodBtn" class="btn btn-primary hidden">Bom</button>
-            <button id="easyBtn" class="btn btn-success hidden">Fácil</button>
+            <button id="againBtn" class="btn btn-danger hidden">Novamente <span class="keyhint">1</span></button>
+            <button id="hardBtn" class="btn btn-secondary hidden">Difícil <span class="keyhint">2</span></button>
+            <button id="goodBtn" class="btn btn-primary hidden">Bom <span class="keyhint">3</span></button>
+            <button id="easyBtn" class="btn btn-success hidden">Fácil <span class="keyhint">4</span></button>
           </div>
         </div>
       </section>
@@ -176,6 +176,16 @@
       </section>
     </main>
   </div>
-  <script src="app.js?v=14"></script>
+  <script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.getRegistrations().then((regs) => {
+    regs.forEach((reg) => {
+      const currentUrl = reg.active?.scriptURL || reg.waiting?.scriptURL || reg.installing?.scriptURL || "";
+      if (currentUrl && !currentUrl.includes("service-worker.js?v=14")) reg.unregister();
+    });
+  }).catch(() => {});
+}
+</script>
+<script src="app.js?v=14"></script>
 </body>
 </html>
