@@ -1,33 +1,79 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AnKing Dashboard Pro v15</title>
-<link rel="stylesheet" href="styles.css?v=15">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AnKing Dashboard Pro v17</title>
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-<div id="loader" class="loader">
-  <div class="card">
-    <h1>AnKing Dashboard Pro</h1>
-    <p id="status">Inicializando...</p>
-    <div class="bar"><div id="progress"></div></div>
-  </div>
-</div>
-
-<div id="app" class="hidden">
-  <div class="card-container">
-    <div id="question" class="card-text"></div>
-    <div id="answer" class="card-text hidden"></div>
+  <div id="loader" class="loader">
+    <div class="panel">
+      <h1>AnKing Dashboard Pro</h1>
+      <p id="status">Inicializando...</p>
+      <div class="bar"><div id="progress"></div></div>
+    </div>
   </div>
 
-  <div class="buttons">
-    <button onclick="showAnswer()">Mostrar resposta</button>
-    <button onclick="nextCard()">Próximo</button>
-  </div>
-</div>
+  <div id="app" class="hidden">
+    <header class="topbar">
+      <div>
+        <h1>AnKing Dashboard Pro</h1>
+        <p class="muted">v17 • corrigido para imagens, áudios, títulos e botões de estudo</p>
+      </div>
 
-<script src="app.js?v=15"></script>
+      <div class="top-actions">
+        <select id="deckFilter"></select>
+        <select id="modeFilter">
+          <option value="all">Todos os cards</option>
+          <option value="wrong">Somente erradas ativas</option>
+        </select>
+        <input id="countInput" type="number" min="0" value="0" title="0 = todos" />
+        <label class="toggle">
+          <input id="randomMode" type="checkbox" checked />
+          <span>Randomizar</span>
+        </label>
+        <button id="restartBtn">Reiniciar</button>
+      </div>
+    </header>
+
+    <section class="stats">
+      <div class="stat"><div class="label">Cards visíveis</div><div id="totalCards">0</div></div>
+      <div class="stat"><div class="label">Respondidos</div><div id="reviewedCards">0</div></div>
+      <div class="stat"><div class="label">Acertos</div><div id="correctCards">0</div></div>
+      <div class="stat"><div class="label">Erros</div><div id="wrongCards">0</div></div>
+    </section>
+
+    <main class="study-shell">
+      <div class="study-meta">
+        <span id="cardDeckShort" class="pill">Deck</span>
+        <span id="cardCounter" class="pill">Card 1 / 1</span>
+      </div>
+      <div id="cardDeckFull" class="muted deck-full"></div>
+
+      <div class="panel card-panel">
+        <div id="cardTitle" class="card-title"></div>
+        <div id="question" class="card-text"></div>
+        <div id="answer" class="card-text answer hidden"></div>
+      </div>
+
+      <div class="buttons">
+        <button id="showAnswerBtn" class="primary">Mostrar resposta</button>
+        <button id="againBtn" class="danger hidden">Novamente</button>
+        <button id="hardBtn" class="secondary hidden">Difícil</button>
+        <button id="goodBtn" class="primary hidden">Bom</button>
+        <button id="easyBtn" class="success hidden">Fácil</button>
+      </div>
+
+      <div id="doneBox" class="panel hidden">
+        <h2>Fila concluída</h2>
+        <p>Você terminou a fila atual. Clique em <strong>Reiniciar</strong> para montar uma nova fila.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>

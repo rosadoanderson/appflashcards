@@ -1,57 +1,195 @@
 
+:root{
+  --bg:#0f172a;
+  --panel:#111827;
+  --line:#243244;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --blue:#2563eb;
+  --green:#16a34a;
+  --red:#dc2626;
+}
+*{box-sizing:border-box}
 body{
-font-family:system-ui,Arial;
-background:#0f172a;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-margin:0;
+  margin:0;
+  min-height:100vh;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top right, rgba(37,99,235,.16), transparent 22%),
+    linear-gradient(180deg,#0b1220 0%, #0f172a 100%);
 }
-
-.loader .card{
-background:#111827;
-padding:30px;
-border-radius:14px;
-width:300px;
-text-align:center;
+.hidden{display:none !important}
+.loader{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:24px;
 }
-
+.panel{
+  background:rgba(17,24,39,.96);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 14px 32px rgba(0,0,0,.22);
+}
+.loader .panel{width:min(460px,100%)}
 .bar{
-background:#1f2937;
-height:8px;
-border-radius:4px;
-margin-top:10px;
+  margin-top:14px;
+  background:#1f2937;
+  border-radius:999px;
+  overflow:hidden;
+  height:12px;
 }
-
 #progress{
-background:#22c55e;
-height:8px;
-width:0%;
-border-radius:4px;
+  width:0%;
+  height:12px;
+  background:linear-gradient(90deg,var(--blue),var(--green));
 }
-
-.hidden{display:none}
-
-.card-container{
-background:#111827;
-padding:30px;
-border-radius:14px;
-max-width:600px;
+#app{
+  max-width:1150px;
+  margin:0 auto;
+  padding:20px;
 }
-
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.topbar h1{
+  margin:0 0 6px 0;
+  font-size:1.45rem;
+}
+.muted{color:var(--muted)}
+.top-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+select,input,button{
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-size:15px;
+}
+select,input{
+  background:#0b1220;
+  color:var(--text);
+  border:1px solid var(--line);
+}
+input[type="number"]{
+  width:90px;
+}
+button{
+  background:#1f2937;
+  color:var(--text);
+  cursor:pointer;
+}
+button.primary{background:var(--blue)}
+button.success{background:var(--green)}
+button.danger{background:var(--red)}
+button.secondary{background:#334155}
+button:hover{filter:brightness(1.06)}
+.toggle{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  color:var(--muted);
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:16px;
+}
+.stat{
+  background:rgba(17,24,39,.96);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+}
+.stat .label{
+  color:var(--muted);
+  font-size:.84rem;
+  margin-bottom:8px;
+}
+.stat div:last-child{
+  font-size:1.35rem;
+  font-weight:700;
+}
+.study-shell{
+  display:grid;
+  gap:12px;
+}
+.study-meta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  background:#101827;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 12px;
+  color:#dbeafe;
+  max-width:100%;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+}
+.deck-full{
+  margin:2px 2px 0 2px;
+  font-size:.84rem;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+}
+.card-panel{
+  min-height:360px;
+}
+.card-title{
+  font-size:1rem;
+  font-weight:700;
+  color:#bfdbfe;
+  margin-bottom:12px;
+  line-height:1.35;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+}
 .card-text{
-font-size:22px;
-margin-bottom:20px;
+  font-size:1.1rem;
+  line-height:1.65;
+  word-break:break-word;
+  overflow-wrap:anywhere;
 }
-
-.buttons button{
-margin-right:10px;
-padding:10px 18px;
-border-radius:8px;
-border:none;
-background:#2563eb;
-color:white;
-cursor:pointer;
+.answer{
+  margin-top:18px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+}
+.card-text img{
+  max-width:100%;
+  height:auto;
+  display:block;
+  margin:12px 0;
+  border-radius:10px;
+}
+.card-text audio{
+  width:100%;
+  margin:12px 0;
+}
+.buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+@media (max-width:760px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:520px){
+  .stats{grid-template-columns:1fr}
 }
